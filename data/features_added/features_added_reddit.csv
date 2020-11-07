@@ -1,0 +1,2 @@
+,body,comms_num,gilded,subjectivity,word_count,sentiment,senti_pos,senti_neg,senti_comp
+0,Microsoft Excel is the ultimate data science tool,61.63673057517659,0.03229061553985873,0,8,"{'neg': 0.0, 'neu': 0.7, 'pos': 0.3, 'compound': 0.4588}",0.3,0.0,0.4588
