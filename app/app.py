@@ -1,8 +1,3 @@
-import sys
-sys.path.append("C:\\Users\\588175\\Projects\\ML_Flask_App\\ml_flask\\src\\models")
-sys.path.append("C:\\Users\\588175\\Projects\\ML_Flask_App\\ml_flask\\src\\data\\scrapers")
-sys.path.append("C:\\Users\\588175\\Projects\\ML_Flask_App\\ml_flask\\src\\data\\prrocessing")
-sys.path.append("C:\\Users\\588175\\Projects\\ML_Flask_App\\ml_flask\\src\\features")
 
 import numpy as np
 import pandas as pd
