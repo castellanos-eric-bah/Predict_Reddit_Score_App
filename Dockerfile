@@ -18,5 +18,5 @@ ENV PYTHONPATH "${PYTHONPATH}:src/data/scrapers"
 ENV PYTHONPATH "${PYTHONPATH}:src/data/prrocessing" 
 ENV PYTHONPATH "${PYTHONPATH}:src/features"
 
-# establish entrypoiny
+# establish entrypoint
 ENTRYPOINT ["conda", "run", "-n", "ml_flask_env", "python", "app/app.py"]

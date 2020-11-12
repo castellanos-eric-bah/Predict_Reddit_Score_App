@@ -3,7 +3,7 @@ import numpy as np
 
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
-from process import DTYPE
+#from process import DTYPE
 
 #REDDIT_DATA = pd.read_csv("C:\\Users\\588175\\Projects\\ML_Flask_App\\ml_flask\\data\\processed\\processed_reddit.csv", dtype=DTYPE)
 
