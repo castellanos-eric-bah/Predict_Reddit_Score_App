@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 airflow initdb
 airflow webserver
 
