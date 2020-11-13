@@ -29,7 +29,7 @@ def predict():
     subreddit, title, body = features[0], features[1], features[2]
 
     c = Client(None, None)
-    c.trigger_dag(dag='modelling_dag', run_id='{}_run_id'.format(subreddit), conf={'subreddit' : subreddit})
+    c.trigger_dag(dag='modelling_dag', run_id='{}_run_id'.format(subreddit))
 
     reddit_data = scrape(REDDIT, subreddit)
     processed_data = process(reddit_data)
@@ -50,4 +50,4 @@ def predict():
     return 'Predicted Score for Reddit Post: {}'.format(prediction)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port='5000')

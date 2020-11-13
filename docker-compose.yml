@@ -79,6 +79,18 @@ services:
       - ./plugins:/opt/bitnami/airflow/plugins
       - ./db_backups:/opt/bitnami/airflow/db_backups
       - /var/run/docker.sock:/var/run/docker.sock
+  ml_flask_app:
+  # image for my flask app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ecast229/ml_flask_app:latest
+    ports:
+      - '5000:5000'
+    volumes:
+      - ${PWD}/app:/code
+    environment:
+      FLASK_ENV: development
 volumes:
   airflow_scheduler_data:
     driver: local

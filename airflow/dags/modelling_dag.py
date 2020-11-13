@@ -2,6 +2,7 @@ from datetime import timedelta
 
 from airflow import DAG
 
+from airflow.operators.http_operator import SimpleHttpOperator
 from airflow.operators.bash_operator import BashOperator
 from airflow.operators.python_operator import PythonOperator 
 
@@ -31,12 +32,20 @@ dag = DAG(
     schedule_interval=timedelta(days=1)
 )
 
-# define taks
+# define tasks
+get_data = SimpleHttpOperator(
+    task_id='get_data',
+    http_conn_id='http://0.0.0.0:5000',
+    endpoint='/predict',
+    response_filter=lambda response: response.json()[0],
+    dag=dag
+)
+
 scrape = PythonOperator(
     task_id='scrape_reddit',
     provide_context=True,
-    python_calllable=scrape,
-    op_kwargs={'reddit' : REDDIT, 'subreddit' : conf['subreddit']},
+    python_callable=scrape,
+    op_kwargs={'reddit' : REDDIT, 'subreddit' : 'datascience'},
     dag=dag,
 )
 
@@ -81,4 +90,4 @@ predict = PythonOperator(
 )
 
 # execute DAG
-scrape >> process >> build_features >> model_preparation >> model >> predict
+get_data >> scrape >> process >> build_features >> model_preparation >> model >> predict
