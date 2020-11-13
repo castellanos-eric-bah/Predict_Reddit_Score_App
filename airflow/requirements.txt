@@ -1,0 +1,4 @@
+# == separate requirements for airflow pipeline == #
+praw==7.0.0
+vaderSentiment==3.3.2
+scikit-learn==0.23.2
