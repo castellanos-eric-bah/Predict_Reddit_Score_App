@@ -5,7 +5,7 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 #from process import DTYPE
 
-#REDDIT_DATA = pd.read_csv("C:\\Users\\588175\\Projects\\ML_Flask_App\\ml_flask\\data\\processed\\processed_reddit.csv", dtype=DTYPE)
+REDDIT_DATA = pd.read_csv("/home/ecast229/Predict_Reddit_Score_App/data/processed/processed_reddit.csv", dtype=DTYPE)
 
 def get_sentiment(data):
     analyser = SentimentIntensityAnalyzer()
@@ -20,7 +20,7 @@ def feature_engineering(data):
     data['senti_pos'] = data['sentiment'].apply(lambda x: x['pos'])
     data['senti_neg'] = data['sentiment'].apply(lambda x: x['neg'])
     data['senti_comp'] = data['sentiment'].apply(lambda x: x['compound'])
-    #data.to_csv("C:\\Users\\588175\\Projects\\ML_Flask_App\\ml_flask\\data\\features_added\\features_added_reddit.csv")
+    data.to_csv("/home/ecast229/Predict_Reddit_Score_App/data/features_added/features_added_reddit.csv")
     return data
 
 if __name__ == "__main__":

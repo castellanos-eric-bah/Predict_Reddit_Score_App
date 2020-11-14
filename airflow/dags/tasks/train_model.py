@@ -19,7 +19,7 @@ from joblib import dump, load
 
 #from modelling_helpers import model_diagnostics
 
-#MODEL_DATA = pd.read_csv("C:\\Users\\588175\\Projects\\ML_Flask_App\\ml_flask\\data\\features_added\\features_added_reddit.csv")
+MODEL_DATA = pd.read_csv("/home/ecast229/Predict_Reddit_Score_App/data/features_added/features_added_reddit.csv")
 MODEL_PERFORMANCE = dict()
 
 def preparation(data):
