@@ -19,7 +19,7 @@ from joblib import dump, load
 
 #from modelling_helpers import model_diagnostics
 
-MODEL_DATA = pd.read_csv("/home/ecast229/Predict_Reddit_Score_App/data/features_added/features_added_reddit.csv")
+MODEL_DATA = pd.read_csv("/opt/bitnami/airflow/data/features_added/features_added_reddit.csv")
 MODEL_PERFORMANCE = dict()
 
 def preparation(data):
@@ -33,7 +33,7 @@ def model(name, model_function, X_train, y_train, **kwargs): # add back X_test, 
     model = model_function(kwargs)
     model.fit(X_train,y_train)
     #performance[name] = model_diagnostics(model, X_test, y_test)
-    #dump(model, 'C:\\Users\\588175\\Projects\\ML_Flask_App\\ml_flask\\models\\{}.joblib'.format(name))
+    dump(model, 'opt/bitnami/airflow/models/{}.joblib'.format(name))
     return model
 
 if __name__ == "__main__":

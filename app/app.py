@@ -17,7 +17,7 @@ from train_model import preparation, model
 from predict_model import predict_func
 
 app = Flask(__name__)
-#model = load("C:\\Users\\588175\\Projects\\ML_Flask_App\\ml_flask\\models\\Linear Regression.joblib")
+model = load("./models/Linear Regression.joblib")
 
 @app.route('/')
 def home():

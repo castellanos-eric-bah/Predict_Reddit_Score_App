@@ -37,7 +37,7 @@ def scrape(reddit,subreddit_name):
         topics_dict["gilded"].append(submission.gilded)
 
     reddit_data = pd.DataFrame(topics_dict)
-    reddit_data.to_csv("/home/ecast229/Predict_Reddit_Score_App/data/raw/raw_reddit_raw.csv", index=False)
+    reddit_data.to_csv("/opt/bitnami/airflow/data/raw/raw_reddit_raw.csv", index=False)
     return reddit_data
 
 if __name__ == '__main__':
