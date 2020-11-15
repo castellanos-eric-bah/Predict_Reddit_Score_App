@@ -10,7 +10,7 @@ DTYPE = {
     'gilded': 'int'
 }
 
-REDDIT_DATA = pd.read_csv("/opt/bitnami/airflow/data/raw/raw_reddit_raw.csv", dtype=DTYPE)
+REDDIT_DATA = pd.read_csv("/opt/bitnami/data/raw/raw_reddit_raw.csv", dtype=DTYPE)
 
 def process(data):
     data = data[(data.body != '[deleted]') | (data.body != '[removed]') | (data.body != '')]

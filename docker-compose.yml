@@ -19,7 +19,8 @@ services:
   airflow-scheduler:
 #    image: docker.io/bitnami/airflow-scheduler:1-debian-10
     build:
-      context: airflow-scheduler
+      context: .
+      dockerfile: airflow-scheduler/Dockerfile
     environment:
       - AIRFLOW_DATABASE_NAME=bitnami_airflow
       - AIRFLOW_DATABASE_USERNAME=bn_airflow
@@ -40,7 +41,8 @@ services:
   airflow-worker:
 #    image: docker.io/bitnami/airflow-worker:1-debian-10
     build:
-      context: airflow-worker
+      context: .
+      dockerfile: airflow-worker/Dockerfile
     environment:
       - AIRFLOW_DATABASE_NAME=bitnami_airflow
       - AIRFLOW_DATABASE_USERNAME=bn_airflow
