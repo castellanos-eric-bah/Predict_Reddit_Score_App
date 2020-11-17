@@ -14,7 +14,7 @@ REDDIT = praw.Reddit(client_id='3g9gcvck7Mp7sg', \
                      username='ecast229', \
                      password='Goldenpie22.')
 
-def scrape(reddit,subreddit_name):
+def scrape(reddit=REDDIT,subreddit_name='DataScience'):
     """ Function to scrape a subreddit
         ARGUMENTS:
             reddit: reddit API connection
@@ -37,7 +37,7 @@ def scrape(reddit,subreddit_name):
         topics_dict["gilded"].append(submission.gilded)
 
     reddit_data = pd.DataFrame(topics_dict)
-    reddit_data.to_csv("/opt/bitnami/airflow/data/raw/raw_reddit_raw.csv", index=False)
+    reddit_data.to_csv("/task_data/raw/raw_reddit_raw.csv", index=False)
     return reddit_data
 
 if __name__ == '__main__':

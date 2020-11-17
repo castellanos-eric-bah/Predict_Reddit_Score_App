@@ -33,7 +33,7 @@ services:
       #- AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=False
     volumes:
       - airflow_scheduler_data:/bitnami
-      - ./plugins:/opt/bitnami/airflow/plugins
+      - ${PWD}/plugins:/opt/bitnami/airflow/plugins
       - ${PWD}/airflow/dags:/opt/bitnami/airflow/dags
       - ./db_backups:/opt/bitnami/airflow/db_backups
       - /var/run/docker.sock:/var/run/docker.sock
@@ -54,7 +54,7 @@ services:
       #- AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=False
     volumes:
       - airflow_worker_data:/bitnami
-      - ./plugins:/opt/bitnami/airflow/plugins
+      - ${PWD}/plugins:/opt/bitnami/airflow/plugins
       - ${PWD}/airflow/dags:/opt/bitnami/airflow/dags
       - ./db_backups:/opt/bitnami/airflow/db_backups
       - /var/run/docker.sock:/var/run/docker.sock
@@ -78,9 +78,9 @@ services:
     ports:
       - '8080:8080'
     volumes:
-      - airflow_worker_data:/bitnami
+      - airflow_data:/bitnami
       - ${PWD}/airflow/dags:/opt/bitnami/airflow/dags
-      - ./plugins:/opt/bitnami/airflow/plugins
+      - ${PWD}/plugins:/opt/bitnami/airflow/plugins
       - ./db_backups:/opt/bitnami/airflow/db_backups
       - /var/run/docker.sock:/var/run/docker.sock
       - ${PWD}/airflow/requirements.txt:/bitnami/python/requirements.txt

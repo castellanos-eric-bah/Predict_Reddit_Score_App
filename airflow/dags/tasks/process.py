@@ -10,12 +10,12 @@ DTYPE = {
     'gilded': 'int'
 }
 
-REDDIT_DATA = pd.read_csv("/opt/bitnami/data/raw/raw_reddit_raw.csv", dtype=DTYPE)
+REDDIT_DATA = pd.read_csv("/task_data/raw/raw_reddit_raw.csv", dtype=DTYPE)
 
-def process(data):
+def process(data=REDDIT_DATA):
     data = data[(data.body != '[deleted]') | (data.body != '[removed]') | (data.body != '')]
     data = data[~(data['body'].isna() | data['body'].isna())]
-    data.to_csv("/opt/bitnami/airflow/data/processed/processed_reddit.csv")
+    data.to_csv("/task_data/processed/processed_reddit.csv")
     return data
 
 if __name__ == "__main__":

@@ -2,8 +2,7 @@ from joblib import load
 
 from sklearn.datasets import make_blobs 
 
-from tasks.build_features import feature_engineering
-from tasks.train_model import preparation 
+from tasks.build_features import feature_engineering 
 
 def predict_func(model, new_post):
     model = load(model)
