@@ -1,3 +1,5 @@
+import logging
+
 import pandas as pd 
 import numpy as np
 
@@ -19,22 +21,27 @@ from joblib import dump, load
 
 #from modelling_helpers import model_diagnostics
 
-#MODEL_DATA = pd.read_csv("C:\\Users\\588175\\Projects\\ML_Flask_App\\ml_flask\\data\\features_added\\features_added_reddit.csv")
+logging.basicConfig(format='%(asctime)s : %(levelname)s : %(name)s : %(message)s')
+
+LOG = logging.getLogger(__name__)
+LOG.setLevel(logging.INFO)
+
+MODEL_DATA = pd.read_csv("/task_data/features_added/features_added_reddit.csv")
 MODEL_PERFORMANCE = dict()
 
-def preparation(data):
+def model(name='Linear Regression', model_function=LinearRegression, data=MODEL_DATA, **kwargs): # add back X_test, y_test and performance
     y = data['score'].values
     x = data[['comms_num', 'gilded', 'subjectivity', 'word_count', 'senti_comp']]
     x = x.to_numpy()
     X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=10)
-    return X_train, X_test, y_train, y_test
 
-def model(name, model_function, X_train, y_train, **kwargs): # add back X_test, y_test and performance
-    model = model_function(kwargs)
+    try:
+        model = model_function(kwargs)
+    except ValueError:
+        LOG.error("{} is not a proper scikit-learn function".format(str(model_function)))
+
     model.fit(X_train,y_train)
-    #performance[name] = model_diagnostics(model, X_test, y_test)
-    #dump(model, 'C:\\Users\\588175\\Projects\\ML_Flask_App\\ml_flask\\models\\{}.joblib'.format(name))
-    return model
+    dump(model, "/ml_models/{}.joblib".format(name))
 
 if __name__ == "__main__":
     model_data = preparation(MODEL_DATA)

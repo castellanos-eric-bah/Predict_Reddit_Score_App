@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+<head>
+  <meta charset="UTF-8">
+  <title>Machine Learning API</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<style>
+    .row-margin-30 { padding-top: 30px; padding-bottom: 30px; }
+</style>
+
+<body>
+    <div class="navbar" style="background-color: #FFFFFF">
+      <a class="navbar-brand" href="#">
+        <span>
+          <img src="/static/reddit_logo.png" height=40 width=40 class="d-inline-block align-top" alt="Cinque Terre"> 
+        </span>
+        <span style="color: #FF5700">
+          Predict Reddit Score
+        </span>
+      </a>
+    </div>
+
+    <div class="jumbotron container" style="background-color: #FF5700">
+            <div class="row row-margin-30">
+                <div class="col-md-6 col-md-offset-4">
+                    <p class="lead" style="color: #FFFFFF">
+                        Predicted Score for Reddit Post: {{ score }}
+                    </p>
+                </div>
+            </div>
+    </div>
+</body>

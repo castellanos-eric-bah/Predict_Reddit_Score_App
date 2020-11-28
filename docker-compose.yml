@@ -19,7 +19,8 @@ services:
   airflow-scheduler:
 #    image: docker.io/bitnami/airflow-scheduler:1-debian-10
     build:
-      context: airflow-scheduler
+      context: .
+      dockerfile: airflow-scheduler/Dockerfile
     environment:
       - AIRFLOW_DATABASE_NAME=bitnami_airflow
       - AIRFLOW_DATABASE_USERNAME=bn_airflow
@@ -32,14 +33,15 @@ services:
       #- AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=False
     volumes:
       - airflow_scheduler_data:/bitnami
-      - ./plugins:/opt/bitnami/airflow/plugins
+      - ${PWD}/plugins:/opt/bitnami/airflow/plugins
       - ${PWD}/airflow/dags:/opt/bitnami/airflow/dags
       - ./db_backups:/opt/bitnami/airflow/db_backups
       - /var/run/docker.sock:/var/run/docker.sock
   airflow-worker:
 #    image: docker.io/bitnami/airflow-worker:1-debian-10
     build:
-      context: airflow-worker
+      context: .
+      dockerfile: airflow-worker/Dockerfile
     environment:
       - AIRFLOW_DATABASE_NAME=bitnami_airflow
       - AIRFLOW_DATABASE_USERNAME=bn_airflow
@@ -51,7 +53,7 @@ services:
       #- AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=False
     volumes:
       - airflow_worker_data:/bitnami
-      - ./plugins:/opt/bitnami/airflow/plugins
+      - ${PWD}/plugins:/opt/bitnami/airflow/plugins
       - ${PWD}/airflow/dags:/opt/bitnami/airflow/dags
       - ./db_backups:/opt/bitnami/airflow/db_backups
       - /var/run/docker.sock:/var/run/docker.sock
@@ -75,22 +77,22 @@ services:
       - '8080:8080'
     volumes:
       - airflow_data:/bitnami
+      - ${PWD}/plugins:/opt/bitnami/airflow/plugins
       - ${PWD}/airflow/dags:/opt/bitnami/airflow/dags
-      - ./plugins:/opt/bitnami/airflow/plugins
       - ./db_backups:/opt/bitnami/airflow/db_backups
       - /var/run/docker.sock:/var/run/docker.sock
-  ml_flask_app:
+  #ml_flask_app:
   # image for my flask app
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: ecast229/ml_flask_app:latest
-    ports:
-      - '5000:5000'
-    volumes:
-      - ${PWD}/app:/code
-    environment:
-      FLASK_ENV: development
+  #  build:
+  #    context: .
+  #    dockerfile: Dockerfile
+  #  image: ecast229/ml_flask_app:latest
+  #  ports:
+  #    - '5000:5000'
+  #  volumes:
+  #    - ${PWD}/app:/code
+  #  environment:
+  #    FLASK_ENV: development
 volumes:
   airflow_scheduler_data:
     driver: local

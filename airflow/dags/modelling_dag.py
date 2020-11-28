@@ -8,11 +8,12 @@ from airflow.operators.python_operator import PythonOperator
 
 from airflow.utils.dates import days_ago
 
-from tasks.scrape_reddit import REDDIT, scrape
+from tasks.pull_top_subreddits import get_top_subreddits
+from tasks.scrape_reddit import combine_to_one
 from tasks.process import process
 from tasks.build_features import feature_engineering
-from tasks.train_model import preparation, model
-from tasks.predict_model import predict_func
+from tasks.train_model import model
+from tasks.upload_to_s3 import upload_to_aws
 
 default_args = {
     'owner' : 'airflow',
@@ -33,61 +34,47 @@ dag = DAG(
 )
 
 # define tasks
-get_data = SimpleHttpOperator(
-    task_id='get_data',
-    http_conn_id='http://0.0.0.0:5000',
-    endpoint='/predict',
-    response_filter=lambda response: response.json()[0],
-    dag=dag
+pull_top_subreddits = PythonOperator(
+    task_id='pull_top_subreddits',
+    provide_context=False,
+    python_callable=get_top_subreddits,
+    dag=dag,
 )
 
 scrape = PythonOperator(
     task_id='scrape_reddit',
-    provide_context=True,
-    python_callable=scrape,
-    op_kwargs={'reddit' : REDDIT, 'subreddit' : 'datascience'},
+    provide_context=False,
+    python_callable=combine_to_one,
     dag=dag,
 )
 
 process = PythonOperator(
     task_id='process_reddit',
-    provide_context=True,
-    python_calllable=process,
-    op_kwargs={'data' : data},
+    provide_context=False,
+    python_callable=process,
     dag=dag,
 )
 
 build_features = PythonOperator(
     task_id='build_features',
-    provide_context=True,
-    python_calllable=feature_engineering,
-    op_kwargs={'data' : data},
-    dag=dag,
-)
-
-model_preparation = PythonOperator(
-    task_id='preparation',
-    provide_context=True,
-    python_calllable=preparation,
-    op_kwargs={'data' : data},
+    provide_context=False,
+    python_callable=feature_engineering,
     dag=dag,
 )
 
 model = PythonOperator(
     task_id='model',
-    provide_context=True,
-    python_calllable=model,
-    op_kwargs={'name' : name, 'model_function' : model_function, 'X_train' : X_train, 'y_train' : y_train},
+    provide_context=False,
+    python_callable=model,
     dag=dag,
 )
 
-predict = PythonOperator(
-    task_id='predict',
-    provide_context=True,
-    python_calllable=predict,
-    op_kwargs={'model' : model, 'new_post' : new_post},
+upload = PythonOperator(
+    task_id='upload_to_s3',
+    provide_context=False,
+    python_callable=upload_to_aws,
     dag=dag,
 )
 
 # execute DAG
-get_data >> scrape >> process >> build_features >> model_preparation >> model >> predict
+pull_top_subreddits >> scrape >> process >> build_features >> model >> upload

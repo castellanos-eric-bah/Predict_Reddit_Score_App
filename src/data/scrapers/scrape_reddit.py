@@ -37,7 +37,7 @@ def scrape(reddit,subreddit_name):
         topics_dict["gilded"].append(submission.gilded)
 
     reddit_data = pd.DataFrame(topics_dict)
-    #reddit_data.to_csv("C:\\Users\\588175\\Projects\\ML_Flask_App\\ml_flask\\data\\raw\\raw_reddit_raw.csv", index=False)
+    reddit_data.to_csv("data/raw/raw_reddit_raw.csv", index=False)
     return reddit_data
 
 if __name__ == '__main__':

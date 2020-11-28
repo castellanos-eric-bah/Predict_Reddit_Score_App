@@ -1,4 +1,10 @@
 
+import sys
+
+sys.path.append("/home/ecast229/Predict_Reddit_Score_App/src/features")
+sys.path.append("/home/ecast229/Predict_Reddit_Score_App/src/models")
+sys.path.append("/home/ecast229/Predict_Reddit_Score_App/src/data/prrocessing")
+
 import numpy as np
 import pandas as pd
 
@@ -8,16 +14,12 @@ from flask import render_template
 from joblib import load
 from sklearn.linear_model import LinearRegression
 
-from airflow.api.client.local_client import Client
+import boto3
 
-from scrape_reddit import REDDIT, scrape
-from process import process
 from build_features import feature_engineering
-from train_model import preparation, model
-from predict_model import predict_func
+from read_s3 import read_s3
 
 app = Flask(__name__)
-#model = load("C:\\Users\\588175\\Projects\\ML_Flask_App\\ml_flask\\models\\Linear Regression.joblib")
 
 @app.route('/')
 def home():
@@ -28,26 +30,18 @@ def predict():
     features = [str(x) for x in request.form.values()]
     subreddit, title, body = features[0], features[1], features[2]
 
-    c = Client(None, None)
-    c.trigger_dag(dag='modelling_dag', run_id='{}_run_id'.format(subreddit))
-
-    reddit_data = scrape(REDDIT, subreddit)
-    processed_data = process(reddit_data)
-    features_added = feature_engineering(processed_data)
-    model_data = preparation(features_added)
-    X_train, y_train = model_data[0], model_data[2]
-    prediction_model = model('Linear Regression', LinearRegression, X_train, y_train)
-
     # Add features to prediction data
-    commns_num, gilded = reddit_data['comms_num'].mean(), reddit_data['gilded'].mean()
+    commns_num, gilded = 50, 50
     prediction_data = pd.DataFrame([[body,commns_num,gilded]],columns=['body', 'comms_num', 'gilded'])
     prediction_data_features = feature_engineering(prediction_data)
     prediction_data_features = prediction_data_features[['comms_num', 'gilded', 'subjectivity', 'word_count', 'senti_comp']]
 
     final_features = prediction_data_features.to_numpy()
+    prediction_model = read_s3()
     prediction = prediction_model.predict(final_features)
 
-    return 'Predicted Score for Reddit Post: {}'.format(prediction)
+    #return 'Predicted Score for Reddit Post: {}'.format(prediction)
+    return render_template('prediction.html', score=str(prediction[0]))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port='5000')
