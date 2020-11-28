@@ -1,39 +1,59 @@
 <!DOCTYPE html>
-<html >
+<html>
 <!--From https://codepen.io/frytyler/pen/EGdtg-->
 <head>
   <meta charset="UTF-8">
   <title>Machine Learning API</title>
   <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/static/style.css">
 </head>
 
+<style>
+  .row-margin-30 { padding-top: 30px; padding-bottom: 30px; }
+</style>
+
 <body>
- <div class="login">
-	<h1>Predict Reddit Post Score</h1>
-
-     <!-- Main Input For Receiving Query to our ML -->
-    <form action="{{ url_for('predict')}}"method="post">
-        <label>Subreddit:</label>
-        <input type="text" name="Enter Subreddit:" placeholder="r/" required="required" />
-        <label>Post Title:</label>
-        <input type="text" name="Enter Title:" placeholder="Title" required="required" />
-        <label>Post Body:</label>
-        <input type="text" name="Enter Body:" placeholder="Body" required="required" />
-
-        <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
-    </form>
-
-   <br>
-   <br>
-   {{ prediction_text }}
-
- </div>
+  <div class="navbar" style="background-color: #FFFFFF">
+    <a class="navbar-brand" href="#">
+      <span>
+        <img src="/static/reddit_logo.png" height=40 width=40 class="d-inline-block align-top" alt="Cinque Terre"> 
+      </span>
+      <span style="color: #FF5700">
+        Predict Reddit Score
+      </span>
+    </a>
+  </div>
 
 
+  <!-- Main Input For Receiving Query to our ML -->
+  <form  class="form-inline" action="{{ url_for('predict')}}" method="post">
+    <div class="container">
+      <div class="form-row row-margin-30">
+        <div class="col-md-4 my-auto">
+          <label style="color: #FF5700">Subreddit:</label>
+          <input type="text" name="Enter Subreddit:" class="form-control" placeholder="r/" required="required" />
+        </div>
+        <div class="col-md-4 my-auto">
+          <label style="color: #FF5700">Post Title:</label>
+          <input type="text" name="Enter Title:" class="form-control" placeholder="Title" required="required" />
+        </div>
+        <div class="col-md-4 my-auto">
+          <label style="color: #FF5700">Post Body:</label>
+          <input type="text" name="Enter Body:" class="form-control" placeholder="Body" required="required" />
+        </div>
+      </div>
+      <div class="form-row row-margin-30">
+        <div class="col-md-2 col-md-offset-5">
+          <button type="submit" class="btn btn-primary btn-md" style="background-color: #FF5700">Predict</button>
+        </div>
+      </div>
+    </div>
+  </form>
 </body>
 </html>

@@ -8,9 +8,9 @@ USER root
 
 RUN chmod -R 777 /task_data /ml_models
 
-#RUN apt-get update && apt-get upgrade -y && \
-#    apt-get install -y vim && \
-#    rm -r /var/lib/apt/lists /var/cache/apt/archives
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y vim && \
+    rm -r /var/lib/apt/lists /var/cache/apt/archives
     
 RUN bash -c "source /opt/bitnami/airflow/venv/bin/activate && \
     pip install -r requirements.txt && \

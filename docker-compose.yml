@@ -37,7 +37,6 @@ services:
       - ${PWD}/airflow/dags:/opt/bitnami/airflow/dags
       - ./db_backups:/opt/bitnami/airflow/db_backups
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${PWD}/airflow/requirements.txt:/bitnami/python/requirements.txt
   airflow-worker:
 #    image: docker.io/bitnami/airflow-worker:1-debian-10
     build:
@@ -58,7 +57,6 @@ services:
       - ${PWD}/airflow/dags:/opt/bitnami/airflow/dags
       - ./db_backups:/opt/bitnami/airflow/db_backups
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${PWD}/airflow/requirements.txt:/bitnami/python/requirements.txt
   airflow:
 #    image: docker.io/bitnami/airflow:1-debian-10
     build:
@@ -79,11 +77,10 @@ services:
       - '8080:8080'
     volumes:
       - airflow_data:/bitnami
-      - ${PWD}/airflow/dags:/opt/bitnami/airflow/dags
       - ${PWD}/plugins:/opt/bitnami/airflow/plugins
+      - ${PWD}/airflow/dags:/opt/bitnami/airflow/dags
       - ./db_backups:/opt/bitnami/airflow/db_backups
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${PWD}/airflow/requirements.txt:/bitnami/python/requirements.txt
   #ml_flask_app:
   # image for my flask app
   #  build:

@@ -8,7 +8,8 @@ from airflow.operators.python_operator import PythonOperator
 
 from airflow.utils.dates import days_ago
 
-from tasks.scrape_reddit import REDDIT, scrape
+from tasks.pull_top_subreddits import get_top_subreddits
+from tasks.scrape_reddit import combine_to_one
 from tasks.process import process
 from tasks.build_features import feature_engineering
 from tasks.train_model import model
@@ -33,11 +34,17 @@ dag = DAG(
 )
 
 # define tasks
+pull_top_subreddits = PythonOperator(
+    task_id='pull_top_subreddits',
+    provide_context=False,
+    python_callable=get_top_subreddits,
+    dag=dag,
+)
 
 scrape = PythonOperator(
     task_id='scrape_reddit',
     provide_context=False,
-    python_callable=scrape,
+    python_callable=combine_to_one,
     dag=dag,
 )
 
@@ -62,5 +69,12 @@ model = PythonOperator(
     dag=dag,
 )
 
+upload = PythonOperator(
+    task_id='upload_to_s3',
+    provide_context=False,
+    python_callable=upload_to_aws,
+    dag=dag,
+)
+
 # execute DAG
-scrape >> process >> build_features >> model
+pull_top_subreddits >> scrape >> process >> build_features >> model >> upload
