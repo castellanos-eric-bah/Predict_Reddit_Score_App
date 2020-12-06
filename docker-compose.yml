@@ -17,7 +17,6 @@ services:
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
   airflow-scheduler:
-#    image: docker.io/bitnami/airflow-scheduler:1-debian-10
     build:
       context: .
       dockerfile: airflow-scheduler/Dockerfile
@@ -38,7 +37,6 @@ services:
       - ./db_backups:/opt/bitnami/airflow/db_backups
       - /var/run/docker.sock:/var/run/docker.sock
   airflow-worker:
-#    image: docker.io/bitnami/airflow-worker:1-debian-10
     build:
       context: .
       dockerfile: airflow-worker/Dockerfile
@@ -58,7 +56,6 @@ services:
       - ./db_backups:/opt/bitnami/airflow/db_backups
       - /var/run/docker.sock:/var/run/docker.sock
   airflow:
-#    image: docker.io/bitnami/airflow:1-debian-10
     build:
       # You can also specify the build context
       # as cwd and point to a different Dockerfile
@@ -81,18 +78,30 @@ services:
       - ${PWD}/airflow/dags:/opt/bitnami/airflow/dags
       - ./db_backups:/opt/bitnami/airflow/db_backups
       - /var/run/docker.sock:/var/run/docker.sock
-  #ml_flask_app:
+  jenkins:
+    image: jenkins/jenkins:lts
+    privileged: true
+    user: root
+    ports:
+      - 8081:8080
+      - 50000:50000
+    container_name: jenkins
+    volumes:
+      - /home/ecast229/jenkins:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/local/bin/docker:/usr/local/bin/docker
+  ml_flask_app:
   # image for my flask app
-  #  build:
-  #    context: .
-  #    dockerfile: Dockerfile
-  #  image: ecast229/ml_flask_app:latest
-  #  ports:
-  #    - '5000:5000'
-  #  volumes:
-  #    - ${PWD}/app:/code
-  #  environment:
-  #    FLASK_ENV: development
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ecast229/ml_flask_app:latest
+    ports:
+      - '5000:5000'
+    volumes:
+      - ${PWD}/app:/code
+    environment:
+      FLASK_ENV: development
 volumes:
   airflow_scheduler_data:
     driver: local

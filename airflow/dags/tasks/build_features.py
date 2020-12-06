@@ -20,7 +20,7 @@ def feature_engineering(data=REDDIT_DATA):
     data['senti_pos'] = data['sentiment'].apply(lambda x: x['pos'])
     data['senti_neg'] = data['sentiment'].apply(lambda x: x['neg'])
     data['senti_comp'] = data['sentiment'].apply(lambda x: x['compound'])
-    data.to_csv("/task_data/features_added/features_added_reddit.csv")
+    data.to_csv("/task_data/features_added/features_added_reddit.csv", index=false)
     return data
 
 if __name__ == "__main__":
